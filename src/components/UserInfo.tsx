@@ -22,11 +22,11 @@ export default function UserInfo({ user }: UserInfoProps) {
           <span className="inline-block bg-gray-600 text-white text-xs px-2 py-1 rounded">
             Pro
           </span>
-          <h5 className="mt-2 text-lg font-semibold">{user.name}</h5>
-          <span className="text-sm text-gray-500">Id: {user.id}</span>
+          <h5 className="mt-2 text-lg font-semibold">{user?.name}</h5>
+          <span className="text-sm text-gray-500">Id: {user?.id}</span>
 
           <p className="mt-4 text-sm text-gray-600">
-            Email: {user.email}
+            Email: {user?.email}
           </p>
 
           <div className="mt-5 space-x-4">

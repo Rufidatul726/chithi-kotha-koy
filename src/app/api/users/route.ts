@@ -2,11 +2,9 @@ import { NextRequest } from 'next/server';
 import bcrypt from 'bcryptjs';
 import prisma from '../prismaInit';
 
-export async function POST(req: NextRequest) { 
-  const { name, email, password } = await req.json();  
+export async function POST(req: NextRequest) {
+  const { name, email, password } = await req.json();
 
-  console.log(name, email, password);
-  
   try {
     if (!email || !password || !name) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
@@ -32,24 +30,22 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return new Response(JSON.stringify(user), { status: 201 });  // Return the new user as response
+    return new Response(JSON.stringify(user), { status: 201 }); // Return the new user as response
   } catch (error) {
     return new Response(JSON.stringify({ error: 'User creation failed', details: error }), { status: 500 });
   }
 }
 
-// GET method handler
 export async function GET() {
-    console.log("this is get req");
-    
   try {
     const users = await prisma.user.findMany();
     return new Response(JSON.stringify(users), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to fetch users' }), { status: 500 });
+    return new Response(JSON.stringify({ error: 'Failed to fetch users' + error }), { status: 500 });
   }
 }
 
-export async function handleMethodNotAllowed(req: NextRequest) {
-  return new Response(JSON.stringify({ error: req + ' Method not allowed' }), { status: 405 }); 
+// For unsupported methods, you can add a global handler for all methods
+export async function PUT() {
+  return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
 }

@@ -1,23 +1,21 @@
 "use client"
 
-// import "core-js/stable";
 import "regenerator-runtime/runtime";
 import React, { useState, useEffect } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import useClipboard from "react-use-clipboard";
+import useClipboard from "react-use-clipboard";
 
 export default function SpeechToText() {
     const {
         transcript,
-        listening,
         browserSupportsSpeechRecognition
       } = useSpeechRecognition();
 
       const startListening = () => SpeechRecognition.startListening({ continuous: true,language: 'en-IN' });
       const [textToCopy, setTextToCopy] = useState('');
-    //   const [isCopied, setCopied] = useClipboard(textToCopy, {
-    //     successDuration:1000
-    // });
+      const [isCopied, setCopied] = useClipboard(textToCopy, {
+          successDuration:1000
+      });
 
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) {
@@ -36,15 +34,15 @@ export default function SpeechToText() {
           {transcript}
         </div>
 
-        <button onClick={startListening}  className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mr-2">
+        <button onClick={startListening}  className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mr-2" >
           Start
         </button>
         <button onClick={SpeechRecognition.stopListening}  className="bg-red-500 hover-bg-red-600 text-white py-2 px-4 rounded-md mr-2">
           Stop
         </button>
-        {/* <button onClick={setCopied}  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+        <button onClick={setCopied}  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
         {isCopied ? 'Copied!' : 'Copy to clipboard'}
-        </button> */}
+        </button>
       </div>
     </div>
   );

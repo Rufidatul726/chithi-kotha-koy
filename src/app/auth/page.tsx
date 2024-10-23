@@ -9,7 +9,7 @@ import Image from 'next/image';
 import GoogleLogo from '@/images/logo_google.svg';
 import GithubLogo  from '@/images/logo_github.svg'; 
 
-const page = () => {
+const Page = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [user, setUser] = useState<User | null>(null)
 
@@ -158,4 +158,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

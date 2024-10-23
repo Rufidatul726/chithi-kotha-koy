@@ -1,11 +1,11 @@
-declare const window: any;
+declare const window: Window
 
-const synth = typeof window !== 'undefined' && window.speechSynthesis;
+const synth = window.window.speechSynthesis;
 
 export const populateVoiceList = () => {
   try {
-    let voices = synth.getVoices();
-    return voices.sort((a: any, b: any) => a.name.localeCompare(b.name));
+    const voices = synth.getVoices();
+    return voices.sort((a: SpeechSynthesisVoice, b: SpeechSynthesisVoice) => a.name.localeCompare(b.name));
   } catch (err) {
     console.log(err);
   }
@@ -13,14 +13,14 @@ export const populateVoiceList = () => {
 
 export const sayInput = (
   speechValue: string,
-  inputVoice: any,
+  inputVoice: string,
   pitch: number,
   rate: number
 ) => {
   const utterance = new SpeechSynthesisUtterance(speechValue);
 
-  populateVoiceList().forEach((voice: any) => {
-    if (voice.name === inputVoice) {
+  populateVoiceList()?.forEach((voice: SpeechSynthesisUtterance["voice"]) => {
+    if (voice?.name === inputVoice) {
       utterance.voice = voice;
       return;
     }

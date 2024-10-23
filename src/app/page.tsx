@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import SpeechToText from "@/components/SpeechToText";
 import TextToSpeech from "@/components/TextToSpeech";
-import UserInfo from "@/components/UserInfo"
 import { getServerAuthSession } from "@/server/auth";
 import Link from "next/link";
 

@@ -4,9 +4,15 @@ export type User = {
     email? : string | null;
     password? : string | null;
     confirm_password? : string | null;
-    options? : object | {} ;
 }
 
 export type UserInfoProps = {
-    user: User;
+    user?: User;
 }
+
+export interface voiceProps {
+    voiceURI: string;
+    name: string;
+    lang: string;
+    default: boolean;
+  }

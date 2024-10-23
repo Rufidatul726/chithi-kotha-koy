@@ -1,21 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { sayInput, populateVoiceList } from '@/app/api/voice/route';
+import { sayInput} from '@/app/api/voice/input';
 
 const selectValues = [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
-interface voiceProps {
-  voiceURI: string;
-  name: string;
-  lang: string;
-  default: boolean;
-}
-
 const TextToSpeech = () => {
     const [textInput, setTextInput] = useState('');
-    const [voiceList, setVoiceList] = useState<any>([]);
-    const [voiceOptions, setVoiceOptions] = useState([]);
+    const [voiceList, setVoiceList] = useState<SpeechSynthesisVoice[]>([]);
+    const [voiceOptions, setVoiceOptions] = useState<JSX.Element[]>([]);
     const [voice, setVoice] = useState('Alex');
     const [pitch, setPitch] = useState<number>(1);
     const [rate, setRate] = useState<number>(1);
@@ -23,7 +16,7 @@ const TextToSpeech = () => {
     useEffect(() => {
         const fetchVoices = () => {
           try {
-            setVoiceList(window.speechSynthesis.getVoices().sort((a: any, b: any) => a.name.localeCompare(b.name)))
+            setVoiceList(window.speechSynthesis.getVoices().sort((a: SpeechSynthesisVoice, b: SpeechSynthesisVoice) => a.name.localeCompare(b.name)))
           } catch (err) {
             console.log(err);
           }
@@ -33,29 +26,31 @@ const TextToSpeech = () => {
     
       useEffect(() => {
         setVoiceOptions(
-          voiceList.length ? (
-            voiceList?.map(({ name, lang }: voiceProps, i: number) => (
-              <option value={name} key={i}>
-                {name} - {lang}
-              </option>
-            ))
-          ) : (
-            <option value='Alex'>Alex - en-US</option>
-          )
+          voiceList.length
+            ? voiceList.map(({ name, lang }: SpeechSynthesisVoice, i: number) => (
+                <option value={name} key={i}>
+                  {name} - {lang}
+                </option>
+              ))
+            : [<option value="Alex" key="default">Alex - en-US</option>]  // Wrap single element in an array
+        
         );
       }, [voiceList]);
     
       useEffect(() => {
-        setVoice((prevVoice: any) =>
+        setVoice((prevVoice: string) =>
           voiceList.length > 0
-            ? voiceList?.filter((voice: any) => voice.default)[0].name
+            ? voiceList?.filter((voice: SpeechSynthesisVoice) => voice.default)[0].name
             : prevVoice
         );
       }, [voiceList]);
     
       const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        textInput.length && sayInput(textInput, voice, pitch, rate);
+        // textInput.length && sayInput(textInput, voice, pitch, rate);
+        if (textInput.length) {
+          sayInput(textInput, voice, pitch, rate);
+        }
       };
     
 
